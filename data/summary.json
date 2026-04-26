@@ -78,5 +78,29 @@
       "mode": "hidden_thinking_512_token_cap",
       "reasoning": {"passed": 1, "total": 10, "avg_latency_ms": 2444.6}
     }
+  ],
+  "agentic_action_loop": [
+    {
+      "model": "qwen3.6-27b",
+      "passed": 8,
+      "total": 8,
+      "avg_latency_ms": 1477.5,
+      "avg_steps": 2.62,
+      "avg_tool_calls": 1.62,
+      "schema_error_count": 0,
+      "invalid_json_count": 0,
+      "strict_json_rate": 1.0
+    },
+    {
+      "model": "qwen3.6-35b-a3b",
+      "passed": 5,
+      "total": 8,
+      "avg_latency_ms": 784.5,
+      "avg_steps": 3.75,
+      "avg_tool_calls": 1.25,
+      "schema_error_count": 14,
+      "invalid_json_count": 0,
+      "strict_json_rate": 1.0
+    }
   ]
 }

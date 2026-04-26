@@ -133,6 +133,19 @@ The hidden-thinking rows should be treated as an endpoint usability diagnostic, 
 
 Raw results are in `data/coding_reasoning_*.jsonl`; a concise report is in `data/coding_reasoning_summary.md`.
 
+## Agentic Action-Loop Tests
+
+I added `scripts/agentic_eval.py`, which runs each model through a deterministic action/observation loop with JSON tool calls, local tool observations, side effects, recovery after misses, and explicit tool abstention.
+
+| Model | Score | Avg latency | Avg steps | Avg tool calls | Schema errors | Invalid JSON |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Qwen3.6-27B | 8/8 | 1,478 ms | 2.62 | 1.62 | 0 | 0 |
+| Qwen3.6-35B-A3B | 5/8 | 785 ms | 3.75 | 1.25 | 14 | 0 |
+
+This is the clearest quality split in the evaluation so far. Qwen3.6-27B is slower, but much more reliable as a strict local agent executor. Qwen3.6-35B-A3B is faster but repeatedly used the wrong action schema, even though the JSON itself was syntactically valid.
+
+Raw traces are in `data/agentic_*.jsonl`; the report is in `data/agentic_summary.md`.
+
 ## TurboQuant Status
 
 I would not use TurboQuant as the primary endpoint path for this setup yet.
@@ -147,4 +160,4 @@ The mature baseline today is latest mainline `llama.cpp` plus Unsloth GGUF quant
 
 For this RTX 5090 host, Qwen3.6-35B-A3B `UD-Q4_K_XL` is the better performance candidate for throughput. It is faster on decode, prefill, TTFT, coding latency, and visible scratchpad reasoning, while using only modestly more VRAM than the 27B dense model under the same 128K/q8-KV setup.
 
-Qwen3.6-27B did better on direct final-only reasoning in the expanded suite, so I would not call 35B-A3B strictly smarter across every interaction style. The practical recommendation is: use 35B-A3B for default serving, and use visible scratchpad prompting or higher thinking budgets for reasoning-heavy requests.
+Qwen3.6-27B did better on direct final-only reasoning and strict action-loop execution, so I would not call 35B-A3B strictly smarter across every interaction style. The practical recommendation is: use 35B-A3B where throughput dominates, but use 27B as the local agent executor unless a schema-repair wrapper is added.
