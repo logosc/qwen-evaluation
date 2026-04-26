@@ -1,0 +1,47 @@
+{
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "vram_mib": 32607,
+    "driver": "570.133.07",
+    "cuda": "12.8",
+    "llama_cpp_version": "b8934-b760272f1",
+    "ctx_size": 131072,
+    "kv_cache": "q8_0/q8_0",
+    "parallel": 1
+  },
+  "models": [
+    {
+      "id": "qwen3.6-27b",
+      "repo": "unsloth/Qwen3.6-27B-GGUF",
+      "file": "Qwen3.6-27B-UD-Q4_K_XL.gguf",
+      "vram_mib_observed": 21787,
+      "decode_tps_512": 68.5,
+      "stream_ttft_ms_avg": 205.8,
+      "stream_ttft_ms_p50": 178.6,
+      "quality_default": {"passed": 5, "total": 8, "avg_latency_ms": 697.9},
+      "quality_thinking": {"passed": 7, "total": 8, "avg_latency_ms": 7330.9}
+    },
+    {
+      "id": "qwen3.6-35b-a3b",
+      "repo": "unsloth/Qwen3.6-35B-A3B-GGUF",
+      "file": "Qwen3.6-35B-A3B-UD-Q4_K_XL.gguf",
+      "vram_mib_observed": 23399,
+      "decode_tps_512": 213.0,
+      "stream_ttft_ms_avg": 108.9,
+      "stream_ttft_ms_p50": 107.1,
+      "quality_default": {"passed": 5, "total": 8, "avg_latency_ms": 310.4},
+      "quality_thinking": {"passed": 7, "total": 8, "avg_latency_ms": 3513.8}
+    }
+  ],
+  "prefill": [
+    {"model": "qwen3.6-27b", "prompt_tokens": 1264.5, "prompt_ms": 414.924, "prompt_tps": 3047.8},
+    {"model": "qwen3.6-27b", "prompt_tokens": 4848.0, "prompt_ms": 1380.633, "prompt_tps": 3511.4},
+    {"model": "qwen3.6-27b", "prompt_tokens": 19182.5, "prompt_ms": 5611.254, "prompt_tps": 3418.6},
+    {"model": "qwen3.6-27b", "prompt_tokens": 38295.0, "prompt_ms": 12267.03, "prompt_tps": 3121.8},
+    {"model": "qwen3.6-35b-a3b", "prompt_tokens": 1263.5, "prompt_ms": 202.536, "prompt_tps": 6283.7},
+    {"model": "qwen3.6-35b-a3b", "prompt_tokens": 4848.5, "prompt_ms": 566.251, "prompt_tps": 8562.5},
+    {"model": "qwen3.6-35b-a3b", "prompt_tokens": 19183.5, "prompt_ms": 2214.136, "prompt_tps": 8664.1},
+    {"model": "qwen3.6-35b-a3b", "prompt_tokens": 38299.0, "prompt_ms": 4671.617, "prompt_tps": 8198.2}
+  ]
+}
+
