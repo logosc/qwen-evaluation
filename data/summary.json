@@ -42,6 +42,41 @@
     {"model": "qwen3.6-35b-a3b", "prompt_tokens": 4848.5, "prompt_ms": 566.251, "prompt_tps": 8562.5},
     {"model": "qwen3.6-35b-a3b", "prompt_tokens": 19183.5, "prompt_ms": 2214.136, "prompt_tps": 8664.1},
     {"model": "qwen3.6-35b-a3b", "prompt_tokens": 38299.0, "prompt_ms": 4671.617, "prompt_tps": 8198.2}
+  ],
+  "expanded_coding_reasoning": [
+    {
+      "model": "qwen3.6-27b",
+      "mode": "direct_thinking_off",
+      "reasoning": {"passed": 6, "total": 10, "avg_latency_ms": 189.7},
+      "coding": {"passed": 8, "total": 8, "avg_latency_ms": 1915.0},
+      "overall": {"passed": 14, "total": 18, "avg_latency_ms": 956.5}
+    },
+    {
+      "model": "qwen3.6-35b-a3b",
+      "mode": "direct_thinking_off",
+      "reasoning": {"passed": 2, "total": 10, "avg_latency_ms": 121.4},
+      "coding": {"passed": 8, "total": 8, "avg_latency_ms": 865.2},
+      "overall": {"passed": 10, "total": 18, "avg_latency_ms": 452.0}
+    },
+    {
+      "model": "qwen3.6-27b",
+      "mode": "visible_scratchpad_thinking_off",
+      "reasoning": {"passed": 10, "total": 10, "avg_latency_ms": 4562.9}
+    },
+    {
+      "model": "qwen3.6-35b-a3b",
+      "mode": "visible_scratchpad_thinking_off",
+      "reasoning": {"passed": 10, "total": 10, "avg_latency_ms": 1686.0}
+    },
+    {
+      "model": "qwen3.6-27b",
+      "mode": "hidden_thinking_512_token_cap",
+      "reasoning": {"passed": 4, "total": 10, "avg_latency_ms": 6887.9}
+    },
+    {
+      "model": "qwen3.6-35b-a3b",
+      "mode": "hidden_thinking_512_token_cap",
+      "reasoning": {"passed": 1, "total": 10, "avg_latency_ms": 2444.6}
+    }
   ]
 }
-

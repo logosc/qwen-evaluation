@@ -110,6 +110,29 @@ Both models missed the same small reasoning tasks with thinking disabled. With t
 
 Operational takeaway: keep thinking disabled for low-latency tool/API use, and enable it per request for reasoning-heavy tasks with a sufficiently high token budget.
 
+## Expanded Coding and Reasoning Tests
+
+I added a larger auto-scored suite in `scripts/coding_reasoning_eval.py`:
+
+- 10 reasoning tasks covering arithmetic, graph distance, modular constraints, set logic, substring counting, instruction boundary handling, and strict JSON output.
+- 8 coding tasks that execute generated Python against deterministic unit assertions.
+- three prompt modes: direct final-answer prompts, visible scratchpad with `FINAL:`, and a capped hidden-thinking diagnostic.
+
+| Mode | Model | Reasoning | Coding | Overall | Avg latency |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Direct, thinking off | Qwen3.6-27B | 6/10 | 8/8 | 14/18 | 957 ms |
+| Direct, thinking off | Qwen3.6-35B-A3B | 2/10 | 8/8 | 10/18 | 452 ms |
+| Visible scratchpad, thinking off | Qwen3.6-27B | 10/10 | n/a | 10/10 | 4,563 ms |
+| Visible scratchpad, thinking off | Qwen3.6-35B-A3B | 10/10 | n/a | 10/10 | 1,686 ms |
+| Hidden thinking, 512-token cap | Qwen3.6-27B | 4/10 | n/a | 4/10 | 6,888 ms |
+| Hidden thinking, 512-token cap | Qwen3.6-35B-A3B | 1/10 | n/a | 1/10 | 2,445 ms |
+
+The direct results show an interesting split: 27B is better on final-only reasoning prompts, while both models pass the coding set and 35B-A3B is faster. When allowed visible scratch work, both models solved all 10 reasoning tasks, but 35B-A3B stayed much faster.
+
+The hidden-thinking rows should be treated as an endpoint usability diagnostic, not a best-quality result. With a tight 512-token cap both models often spent the whole budget in `reasoning_content` and emitted no final answer.
+
+Raw results are in `data/coding_reasoning_*.jsonl`; a concise report is in `data/coding_reasoning_summary.md`.
+
 ## TurboQuant Status
 
 I would not use TurboQuant as the primary endpoint path for this setup yet.
@@ -122,5 +145,6 @@ The mature baseline today is latest mainline `llama.cpp` plus Unsloth GGUF quant
 
 ## Recommendation
 
-For this RTX 5090 host, Qwen3.6-35B-A3B `UD-Q4_K_XL` is the better performance candidate. It is faster on both decode and prefill, uses only modestly more VRAM than the 27B dense model under the same 128K/q8-KV setup, and matched the 27B model on the small intelligence smoke suite.
+For this RTX 5090 host, Qwen3.6-35B-A3B `UD-Q4_K_XL` is the better performance candidate for throughput. It is faster on decode, prefill, TTFT, coding latency, and visible scratchpad reasoning, while using only modestly more VRAM than the 27B dense model under the same 128K/q8-KV setup.
 
+Qwen3.6-27B did better on direct final-only reasoning in the expanded suite, so I would not call 35B-A3B strictly smarter across every interaction style. The practical recommendation is: use 35B-A3B for default serving, and use visible scratchpad prompting or higher thinking budgets for reasoning-heavy requests.
